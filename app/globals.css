@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Deep Cyberpunk Background */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    
+    /* Glass Cards */
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    /* Neon Purple Primary */
+    --primary: 270 80% 60%;
+    --primary-foreground: 0 0% 100%;
+ 
+    /* Muted / Borders */
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 270 80% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+ 
+    /* Borders & Rings */
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 270 80% 60%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground selection:bg-purple-500/30 selection:text-purple-200;
+    /* Subtle animated gradient background */
+    background-image: 
+        radial-gradient(circle at 50% 0%, rgba(120, 50, 255, 0.15), transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(50, 100, 255, 0.05), transparent 40%);
+    background-attachment: fixed;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* --- Custom Animations & Effects --- */
+
+/* Neon Text Glow */
+.text-glow {
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+}
+
+/* Background Grid Pattern */
+.bg-grid-pattern {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+}
