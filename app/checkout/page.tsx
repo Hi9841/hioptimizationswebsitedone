@@ -17,15 +17,14 @@ const PAYPAL_BUTTONS: Record<string, { buttonId: string }> = {
   "GPU Overclock": { buttonId: "VLRE36T3G3X28" },
   "RAM Overclock (DDR4)": { buttonId: "DGV8WA2W242TG" },
   "RAM Overclock (DDR5)": { buttonId: "P4FWPY3BHMRRL" },
-  "Full Overclock Bundle": { buttonId: "J6A95KPGCNENW" },
-  "Full Bundle": { buttonId: "J6A95KPGCNENW" },
+  "Full Bundle": { buttonId: "GBDAKH6BQCEL8" }, 
   "Full Overclock": { buttonId: "J6A95KPGCNENW" },
 }
 
 function CheckoutContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  
+   
   const service = searchParams.get("service") || "Unknown Service"
   const price = searchParams.get("price") || "€0"
 
@@ -38,6 +37,16 @@ function CheckoutContent() {
   })
 
   const [hasJoinedDiscord, setHasJoinedDiscord] = useState(false)
+
+  // --- PLACEHOLDER CONFIGURATION ---
+  // specific placeholders for each field type
+  const placeholders: Record<string, string> = {
+    cpu: "e.g., Ryzen 7 7800X3D / Intel i9-14900K",
+    gpu: "e.g., RTX 4090 / RX 7900 XTX",
+    ram: "e.g., 2x16GB DDR5 6000MHz CL30",
+    motherboard: "e.g., ASUS ROG Strix B650E-F",
+    discordUsername: "e.g., username (or username#1234)",
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -54,7 +63,7 @@ function CheckoutContent() {
   }
 
   const isFormValid = formData.cpu && formData.gpu && formData.ram && formData.motherboard && formData.discordUsername && hasJoinedDiscord
-  
+   
   // Match service name to button ID (fuzzy match supported)
   const paypalConfig = PAYPAL_BUTTONS[service] || 
                        Object.entries(PAYPAL_BUTTONS).find(([key]) => service.includes(key))?.[1];
@@ -76,7 +85,7 @@ function CheckoutContent() {
           <p className="text-muted-foreground mb-8">Finalize your order for <span className="text-purple-400 font-semibold">{service}</span></p>
 
           <div className="grid gap-6">
-            
+             
             {/* --- 1. Order Summary (Glass Card) --- */}
             <div className="p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg">
               <div className="flex justify-between items-center mb-4">
@@ -139,7 +148,8 @@ function CheckoutContent() {
                     <Input
                       id={field}
                       name={field}
-                      placeholder={field === "discordUsername" ? "username#1234" : `e.g., ${field === "cpu" ? "Ryzen 7 7800X3D" : "..."}`}
+                      // Mapped placeholders used here
+                      placeholder={placeholders[field] || `Enter your ${field}`}
                       value={formData[field as keyof typeof formData]}
                       onChange={handleInputChange}
                       className="bg-black/20 border-white/10 focus:border-purple-500/50 h-12 text-base placeholder:text-white/20"
@@ -152,7 +162,7 @@ function CheckoutContent() {
             {/* --- 4. Payment --- */}
             <div className="p-6 bg-gradient-to-b from-white/5 to-black/20 backdrop-blur-md border border-white/10 rounded-xl">
               <h2 className="text-xl font-semibold mb-4">Final Step: Payment</h2>
-              
+               
               <div className="space-y-4">
                 {/* Error Message */}
                 {!isFormValid && (
@@ -185,7 +195,7 @@ function CheckoutContent() {
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="hidden" name="hosted_button_id" value={paypalConfig.buttonId} />
                     <input type="hidden" name="currency_code" value="EUR" />
-                    
+                     
                     <Button
                       type="submit"
                       onClick={handlePayment}
