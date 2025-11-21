@@ -101,8 +101,8 @@ const services = [
   },
   {
     name: "Full Bundle",
-    price: "€100",
-    priceValue: "100",
+    price: "€140",
+    priceValue: "140",
     description: "Complete system tuning + full hardware overclocking.",
     features: [
       "Tier 1 Optimization",
